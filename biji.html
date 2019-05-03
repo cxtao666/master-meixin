@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<div id="tianjia" style="margin-top: 5vh ;height: 10vh;">
+			<ul   class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-right mui-disabled" style="background: white;">
+						<a class="mui-btn mui-btn-red"><span style=""><img src="img/jiluxia.png" style="font-size: 25px;"></span></a>
+					</div>
+					<div class="mui-slider-handle" style="font-weight: 800; height: 4vh;">
+						<a style="position:absolute;left:4vw;">添加笔记</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="container" id="neirong"> </div>
+
+
+
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+
+			mui.plusReady(function() {
+
+
+				var biaoge = plus.storage.getItem("shujubiao");
+				console.log(biaoge);
+				var foo = JSON.parse(biaoge);
+
+				var x = 0;
+
+				if (foo == null) {
+					x = 0;
+				}
+
+				function xuanran() {
+
+					if (foo != null) {
+
+						var html = '';
+						for (let i in foo) {
+
+							console.log(foo[i].zifuchun);
+							html = html + "<ul class='mui-table-view  kaibiji'    number='" + x + "'   id='kaxixin'> " +
+								"<li class='mui-table-view-cell'>" +
+								"<a   style='font-size:18px'>" + foo[i].zifuchun + "</a>" +
+								"<a style='font-size:12px'>" + foo[i].date + "</a>" +
+								"</li>" +
+								"</ul>" +
+								"<br/>";
+
+							x++;
+							console.log(x);
+						}
+						document.getElementById('neirong').innerHTML = html;
+					}
+
+
+				}
+
+				xuanran();
+
+
+				window.addEventListener('yidong', function(e) {
+
+
+                   console.log('120')
+					var chaungkou = plus.webview.currentWebview();
+
+					if (e.detail.mydate == '1') {
+
+						console.log('1');
+						chaungkou.setStyle({
+							left: '260px'
+						})
+
+					} else if (e.detail.mydate == '0') {
+						console.log('2');
+
+						setTimeout(function() {
+							chaungkou.setStyle({
+								left: '0px'
+							})
+						}, 290);
+
+					}
+
+
+
+				});
+
+
+
+
+				document.getElementById('tianjia').addEventListener('tap', function() {
+
+					mui.openWindow({
+						url: "xiebiji.html",
+						id: "xiebiji.html",
+						extras: {
+							data: x
+						},
+					});
+
+
+				});
+
+				window.addEventListener('fresh', function() {
+
+					console.log('110');
+					xuanran();
+
+
+				});
+
+				var list = document.getElementsByClassName('kaibiji');
+				console.log(list[0]);
+
+				for (let i in list) {
+
+
+					list[i].addEventListener('tap', function() {
+
+						number = list[i].getAttribute("number");
+
+						mui.openWindow(
+
+							{
+								url: "xiebiji.html",
+								id: "xiebiji.html",
+								extras: {
+									data: number
+								},
+							});
+						console.log(number);
+					})
+
+
+
+				}
+
+			})
+		</script>
+	</body>
+
+</html>

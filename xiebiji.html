@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">编辑笔记</h1>
+			<a class="mui-action-back mui-icon mui-icon mui-icon-checkmarkempty mui-pull-right" style="font-size: 30px;" id="wancheng"
+			 style="overflow:auto"></a>
+		</header>
+		<div class="mui-content">
+			<textarea cols="50" rows="32" id="wenbenyu" style="overflow-y: scroll;"></textarea>
+		</div>
+
+
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function() {
+
+              var self   = plus.webview.currentWebview();
+			   var  i = self.data;
+				console.log( i);  
+				
+				
+				
+				if(i==0)
+				{
+					
+					foo={}
+					
+				}
+				else{
+					var biaoge = plus.storage.getItem("shujubiao");
+					console.log(biaoge);
+					var foo = JSON.parse(biaoge);
+				}
+			
+				Date.prototype.format = function(fmt) {
+					var o = {
+						"M+": this.getMonth() + 1, //月份 
+						"d+": this.getDate(), //日 
+						"h+": this.getHours(), //小时 
+						"m+": this.getMinutes(), //分 
+						"s+": this.getSeconds(), //秒 
+						"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+						"S": this.getMilliseconds() //毫秒 
+					};
+					if (/(y+)/.test(fmt)) {
+						fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+					}
+					for (var k in o) {
+						if (new RegExp("(" + k + ")").test(fmt)) {
+							fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+						}
+					}
+					return fmt;
+				}
+               
+                            var url = "_doc/"+i+".txt"
+							console.log(url);
+				plus.io.resolveLocalFileSystemURL(url, function(entry) {
+					// 可通过entry对象操作test.html文件 
+					entry.file(function(file) {
+
+						var fileReader = new plus.io.FileReader();
+						fileReader.readAsText(file, 'UTF-8');
+
+
+						fileReader.onloadend = function(e) {
+
+							var text = e.target.result;
+							document.getElementById('wenbenyu').innerHTML = text;
+
+							var areaMsgList = document.getElementById("wenbenyu");
+
+							areaMsgList.scrollTop = areaMsgList.scrollHeight;
+
+                                  console.log(url);
+						}
+						
+					});
+				}, function(e) {
+					
+
+				});
+
+				function cunwenjian(date) {
+
+					plus.io.requestFileSystem(plus.io.PRIVATE_DOC, function(fs) {
+						// fs.root是根目录操作对象DirectoryEntry
+						fs.root.getFile(url, {
+							create: true
+						}, function(fileEntry) {
+							fileEntry.createWriter(function(writer) {
+									writer.onwrite = function(e) {
+										console.log("Write data success!");
+
+									};
+                                    console.log(url);
+									writer.write(date);
+								}
+
+							);
+						});
+					});
+				} 
+				
+			    
+				document.getElementById('wancheng').addEventListener('tap', function() {
+
+					var neirong = wenbenyu.value;
+					var len2 = neirong.length;
+					cunwenjian(neirong);
+
+
+					var obj = plus.webview.getWebviewById('biji.html');
+				
+				  foo[i]={};
+					foo[i].zifuchun = "";
+
+					if (neirong.length > 10) {
+						for (var y = 0; y < 10; y++) {
+							foo[i].zifuchun = foo[i].zifuchun.concat(neirong[y]);
+						}
+
+					} else {
+						foo[i].zifuchun = neirong;
+					}
+
+					var time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
+
+					foo[i].date = time1;
+
+					var biaoge =  JSON.stringify(foo);
+                    console.log(biaoge);
+					
+					plus.storage.setItem('shujubiao', biaoge);
+					
+					console.log('110');
+					
+					mui.fire(obj, 'fresh', {});
+					
+					
+					
+				});
+
+
+
+				window.addEventListener("resize", function() {
+					console.log("111");
+					document.getElementById('wenbenyu').style.paddingTop = "30px";
+
+				});
+
+
+			})
+		</script>
+	</body>
+
+</html>

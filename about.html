@@ -1,0 +1,387 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/feedback.css" />
+	<body>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+
+		<div id="about" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>我
+				</button>
+				<h1 class="mui-center mui-title">关于我们</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-plus-visible mui-stream-hidden">
+								<a id="rate" class="mui-navigate-right">评分鼓励</a>
+							</li>
+							<li class="mui-table-view-cell mui-plus-visible">
+								<a id="welcome" class="mui-navigate-right">欢迎页</a>
+							</li>
+							<li class="mui-table-view-cell mui-plus-visible" id="fenxiang">
+								<a class="mui-navigate-right">分享推荐</a>
+							</li>
+							<li class="mui-table-view-cell" id="kefu">
+								<a id="tel" class="mui-navigate-right">客服电话</a>
+							</li>
+							<li class="mui-table-view-cell" id="shouhou">
+								<a id="feedback-btn" href="#feedback" class="mui-navigate-right">问题反馈</a>
+							</li>
+							<li id="check_update" class="mui-table-view-cell mui-plus-visible">
+								<a id="update" class="mui-navigate-right">检查更新</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action " style="margin-bottom: 15vh;">
+
+
+			<!-- <ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#" style="color: #8F8F94;">分享</b></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" style="color: #222222;" id="pengyouquan">微信朋友圈</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" style="color: #222222;" id="haoyou">微信好友</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" style="color: #222222;" id="qq">QQ</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#" style="color: #222222;" id="weibo">新浪微博</a>
+				</li>
+			</ul> -->
+			<!-- 取消菜单 -->
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#sheet1" style="color: #222222;"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
+
+
+
+
+
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function() {
+				document.getElementById('kefu').addEventListener('tap', function() {
+
+					plus.device.dial('15875394254', true);
+
+
+				})
+
+				/* document.getElementById("fenxiang").addEventListener('tap', function() {
+
+					mui('#sheet1').popover('toggle');
+				}); */
+
+				document.getElementById("fenxiang").addEventListener('tap', function() {
+
+					plus.share.sendWithSystem({
+						type:"web",
+						content: "hi....",
+						thumbs:['_www/shareLogo.png'],
+						href: 'https://fir.im/cdqttao',
+						title: '欢迎使用袂信！',
+						extra: {
+							scene: 'WXSceneSession'
+						}
+					}, function() {
+						console.log('分享成功');
+					}, function(e) {
+						console.log('分享失败：' + JSON.stringify(e));
+					});
+				});
+
+
+
+				/* document.getElementById("pengyouquan").addEventListener('tap', function() {
+					var shareObj = null;
+					plus.share.getServices(
+						//获取分享服务成功
+						function(services) {
+							for (var  i in services) {
+								//判断微信分享服务
+								if (services[i].id == 'weixin') {
+									shareObj = services[i];
+								}
+							}
+							if (shareObj == null) {
+								plus.nativeUI.toast('获取分享服务失败');
+								return;
+							}
+							//分享核心代码
+							shareObj.send(
+								//朋友圈
+								{
+									content: "hi....",
+									thumbs: ['img/Chat.png'],
+									href: 'http://hcoder.net',
+									title: '欢迎使用袂信！'
+								},
+								//微信好友{content:"hi....",thumbs:['_www/shareLogo.png'], href:'https://fir.im/cdqttao',title:'test', extra:{scene:'WXSceneSession'}},
+								function() {
+									alert("分享成功！");
+								},
+								function(e) {
+									alert("分享失败：" + e.message);
+								}
+							);
+						},
+						//获取分享服务失败
+						function(e) {
+							console.log(e.message);
+						}
+					);
+
+
+				}); */
+
+				/* document.getElementById("haoyou").addEventListener('tap', function() {
+
+					var shareObj = null;
+					plus.share.getServices(
+						//获取分享服务成功
+						function(services) {
+							for (var  i in services) {
+								//判断微信分享服务
+								if (services[i].id == 'weixin') {
+									shareObj = services[i];
+								}
+							}
+							if (shareObj == null) {
+								plus.nativeUI.toast('获取分享服务失败');
+								return;
+							}
+							//分享核心代码
+							shareObj.send(
+								//朋友圈
+								{
+									content: "hi....",
+									thumbs: ['img/Chat.png'],
+									href: 'http://hcoder.net',
+									title: '欢迎使用袂信！',
+									extra: {
+										scene: 'WXSceneSession'
+									}
+								},
+								//微信好友{content:"hi....",thumbs:['_www/shareLogo.png'], href:'http://hcoder.net',title:'test', extra:{scene:'WXSceneSession'}},
+								function() {
+									alert("分享成功！");
+								},
+								function(e) {
+									alert("分享失败：" + e.message);
+								}
+							);
+						},
+						//获取分享服务失败
+						function(e) {
+							console.log(e.message);
+						}
+					);
+
+
+				}) */
+
+// 				/* document.getElementById("qq").addEventListener('tap', function() {
+// 
+// 					var shareObj = null;
+// 					plus.share.getServices(
+// 						//获取分享服务成功
+// 						function(services) {
+// 							for (var i in services) {
+// 								//判断微信分享服务
+// 								if (services[i].id == 'qq') {
+// 									shareObj = services[i];
+// 								}
+// 							}
+// 							if (shareObj == null) {
+// 								plus.nativeUI.toast('获取分享服务失败');
+// 								return;
+// 							}
+// 							//分享核心代码
+// 							shareObj.send(
+// 								//朋友圈
+// 								{
+// 									content: "hi....",
+// 									thumbs: ['img/Chat.png'],
+// 									href: 'http://hcoder.net',
+// 									title: '欢迎使用袂信！'
+// 								},
+// 								//微信好友{content:"hi....",thumbs:['_www/shareLogo.png'], href:'http://hcoder.net',title:'test', extra:{scene:'WXSceneSession'}},
+// 								function() {
+// 									alert("分享成功！");
+// 								},
+// 								function(e) {
+// 									alert("分享失败：" + e.message);
+// 								}
+// 							);
+// 						},
+// 						//获取分享服务失败
+// 						function(e) {
+// 							console.log(e.message);
+// 						}
+// 					);
+// 
+// 
+// 				}) */
+
+				/* document.getElementById("weibo").addEventListener('tap', function() {
+
+					var shareObj = null;
+					plus.share.getServices(
+						//获取分享服务成功
+						function(services) {
+							for (var i in services) {
+								//判断微信分享服务
+								if (services[i].id == 'sinaweibo') {
+									shareObj = services[i];
+								}
+							}
+
+
+							if (!shareObj.authenticated) {
+								shareObj.authorize(function() {
+									console.log('完成认证');
+								}, function(e) {
+									console.log("未进行认证");
+								})
+							}
+
+
+
+							if (shareObj == null) {
+								plus.nativeUI.toast('获取分享服务失败');
+								return;
+							}
+							//分享核心代码
+							shareObj.send(
+
+								{
+									content: "袂信欢迎你",
+									thumbs: ['img/Chat.png'],
+									href: 'http://hcoder.net',
+									title: 'test'
+								},
+								//微信好友{content:"hi....",thumbs:['_www/shareLogo.png'], href:'http://hcoder.net',title:'test', extra:{scene:'WXSceneSession'}},
+								function() {
+									alert("分享成功！");
+								},
+								function(e) {
+									alert('分享失败！');
+								}
+							);
+						},
+						//获取分享服务失败
+						function(e) {
+							console.log(e.message);
+						}
+					);
+
+
+				}) */
+
+				document.getElementById('check_update').addEventListener('tap', function() {
+
+					plus.nativeUI.showWaiting("等待中...");
+					setTimeout(function() {
+						plus.nativeUI.closeWaiting();
+						plus.nativeUI.alert("当前已是最新版本");
+					}, 2000);
+
+
+
+				});
+
+				document.getElementById("shouhou").addEventListener("tap", function() {
+
+					var user = app.getUserGlobalInfo();
+
+					var yourFriendUsername = "taotao";
+
+					mui.ajax(app.serverUrl + "/u/search?myUserId=" + user.id +
+						"&friendUsername=" + yourFriendUsername, {
+							data: {},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								//服务器返回响应
+								plus.nativeUI.closeWaiting();
+
+								if (data.status == 200) {
+									var meInfo = app.getUserGlobalInfo();
+									var x = data.data;
+
+									mui.ajax(app.serverUrl + "/u/addFriendRequest?myUserId=" + meInfo.id +
+										"&friendUsername=" + x.username, {
+											data: {},
+											dataType: 'json', //服务器返回json格式数据
+											type: 'post', //HTTP请求类型
+											timeout: 10000, //超时时间设置为10秒；
+											headers: {
+												'Content-Type': 'application/json'
+											},
+											success: function(data) {
+												//服务器返回响应
+												plus.nativeUI.closeWaiting();
+
+												if (data.status == 200) {
+
+													plus.nativeUI.toast('已向客服发送请求消息');
+
+													mui.openWindow({
+														url: "index.html",
+														id: "index.html"
+													});
+												} else {
+													app.showToast(data.msg, "error");
+												}
+											}
+										});
+
+								} else {
+									console.log('1');
+									app.showToast(data.msg, "error");
+
+								}
+							},
+							error: function() {
+								plus.nativeUI.toast(' 您已添加袂信客服');
+							}
+						});
+
+
+				});
+
+			})
+		</script>
+
+	</body>
+
+</html>

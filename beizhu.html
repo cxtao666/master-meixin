@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+	   <header class="mui-bar mui-bar-nav">
+	   	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<a id="wancheng"  class=" mui-icon mui-icon-right-nav mui-pull-right" style="color: #128E12;font-size: 18px;margin-top: 4px;">完成</a>
+	   	<h1 class="mui-title">设置备注和标签</h1>
+	   </header>
+	   <div class="mui-content">
+	   	<ul class="mui-table-view">
+     <li class="mui-table-view-cell">备注名</li>
+</ul>
+         <div class="mui-input-row">
+         	<input type="text" placeholder="请输入备注" id="shuru">
+         </div>
+         
+	   </div>
+	   
+	   
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		
+		<script  type="text/javascript" charset="utf-8">
+			
+			mui.plusReady(function () {
+				
+				 var self = plus.webview.currentWebview();
+           var friendNickname = self.friendNickname;//获得参数
+				
+				
+			    document.getElementById("wancheng").addEventListener("tap",function(){
+				var x =document.getElementById('shuru').value;
+				if(x!=""){
+					plus.storage.setItem(friendNickname, x);
+					mui.back();
+					document.getElementById('shuru').value="";
+					
+				}
+				else{
+					plus.nativeUI.alert("请输入备注名");
+				}
+			});
+			
+			
+			
+			
+			
+			
+			})
+			
+			
+			
+			
+			
+		</script>
+		
+		
+	</body>
+
+</html>

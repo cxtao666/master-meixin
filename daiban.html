@@ -1,0 +1,216 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<ul class="mui-table-view" id="shijiantianjia">
+			<li class="mui-table-view-cell" style="margin-top: 5vh;">
+				<div class="mui-slider-handle" style="font-weight: 800; height: 4vh;">
+					<a style="position:absolute;left:4vw;">添加事件</a>
+				</div>
+			</li>
+		</ul>
+		<br />
+
+
+		<div class="container" id="neirong">
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			mui.plusReady(function() {
+
+
+				var h = 0;
+
+
+
+
+
+
+				var biaoge = plus.storage.getItem('daiban');
+
+				var foo = JSON.parse(biaoge);
+
+				if (foo == null) {
+					foo = {};
+				}
+
+
+				document.getElementById('shijiantianjia').addEventListener('tap', function() {
+
+					for (let i in foo) {
+
+						h++;
+						console.log(h);
+					}
+
+					plus.nativeUI.pickDate(function(e) {
+						var x = e.date;
+						console.log("选择的日期：" + x.getFullYear() + "-" + (x.getMonth() + 1) + "-" + x.getDate());
+
+						plus.nativeUI.pickTime(function(e) {
+
+							var d = e.date;
+							console.log("选择的时间：" + d.getHours() + ":" + d.getMinutes());
+
+							foo[h] = {}
+							foo[h].time = x.getFullYear() + "-" + (x.getMonth() + 1) + "-" + x.getDate() + "  " + d.getHours() + ":" +
+								d.getMinutes();
+
+							plus.nativeUI.prompt("输入事件: ", function(e) {
+								console.log(((e.index == 0) ? "OK: " : "Cancel") + e.value);
+								console.log(e.index);
+								if(e.index==0 )
+								{
+									foo[h].value = e.value;
+
+								var zifu = JSON.stringify(foo);
+								plus.storage.setItem('daiban', zifu);
+
+								plus.storage.setItem("shumu", x);
+
+								xuanran();
+
+									
+								}
+								
+							}, "待办事件 ", "待办", ["完成", "取消"]);
+
+
+
+
+						}, function(e) {
+							console.log("未选择时间：" + e.message);
+						});
+
+					}, function(e) {
+						console.log("未选择日期：" + e.message);
+					});
+
+				});
+
+
+				function xuanran() {
+
+					var html = '';
+					for (let i in foo) {
+
+						html = html + '<ul   class="mui-table-view">' +
+							'<li class="mui-table-view-cell">' +
+							'<div class="shanchu   mui-slider-right mui-disabled" >' +
+							'<a class=" mui-btn mui-btn-red"  >删除</a>' +
+							'</div>' +
+							'<div class = "mui-slider-handle" style = "font-weight: 600; height: 5vh;" >' +
+							'<div>' + foo[i].value + '</div>' +
+							'<div>' + foo[i].time + '</div>' +
+							'</div>' +
+							'</li>' +
+							'</ul>' +
+							'<br/>';
+					}
+					document.getElementById('neirong').innerHTML = html;
+
+
+				}
+
+				xuanran();
+
+              
+				for (let i in foo) {
+                         var gg=0;
+						 var audioPlayer;
+						 console.log('110');
+						 
+					document.addEventListener("pause", function() {
+						
+						console.log('110');
+					var interval = setInterval(tuisong, 1000);
+                    setInterval(qingchu, 1000);
+
+						function tuisong() {
+							
+							console.log('110');
+							var naozhong = new Date();
+
+							var h = naozhong.getHours()
+							var m = naozhong.getMinutes()
+							var g = naozhong.getFullYear()
+							var j = naozhong.getMonth()
+							var c = naozhong.getDate()
+
+							var times = g + "-" + (j + 1) + "-" + c + "  " + h + ":" + m;
+
+							if (times == foo[i].time) {
+								console.log('1');
+								plus.push.createMessage(foo[i].value);
+								  audioPlayer = plus.audio.createPlayer("/mp3/gaobai.mp3");
+								audioPlayer.play();
+								gg = 1 ;
+							}
+						}
+						
+						function qingchu()
+						{
+							
+							if(gg==1)
+							{
+								console.log('55');
+							 clearInterval(interval);
+							 
+							}
+						}
+						
+						
+					}, false);
+				
+				}
+
+
+
+				var list = document.getElementsByClassName('shanchu');
+				for (let i in list) {
+
+					list[i].addEventListener('tap', function() {
+
+						var x = 0;
+
+						for (let h in foo) {
+							console.log(x);
+							if (x == i) {
+								delete foo[h];
+							}
+
+							x++;
+						}
+						var zifu = JSON.stringify(foo);
+						plus.storage.setItem('daiban', zifu);
+						xuanran();
+
+
+					});
+
+
+				}
+
+
+
+
+
+
+
+			})
+		</script>
+	</body>
+
+</html>

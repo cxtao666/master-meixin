@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/util.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+
+		<style>
+			.p-t-85 {
+				padding-top: 10px;
+			}
+			
+			.p-b-70 {
+				padding-bottom: 35px;
+			}
+			
+			.m-t-85 {
+				margin-top: 15px;
+			}
+			
+			.container-login100 {
+				padding: 25px;
+			}
+			/*toast信息提示*/
+			
+			.mui-toast-container {
+				bottom: 50% !important;
+			}
+			.mui-toast-message {
+				opacity: 0.6;
+				color: #fff;
+				width: 180px;
+				padding: 70px 5px 10px 5px;
+			}
+		</style>
+
+
+	</head>
+	<body>
+		<script type="text/javascript" charset="utf-8">
+
+
+		</script>
+		<div class="mui-content">
+			<div class="container-login100">
+				<div class="wrap-login100 p-t-85 p-b-20">
+					<form id="userform">
+						<span class="login100-form-title p-b-70">
+							<h2 style="font-size:2rem;font-weight: 600;color: #494A5F;">袂信</h2>
+						</span>
+						<span style="margin: auto;margin-left:20vw;">
+							<img id="img_login_face" src="img/hi.png" alt="风间影月" style="width: 60%;height: 20vh;">
+						</span>
+
+						<div class="wrap-input100 validate-input m-t-85 m-b-35">
+							<input class="input100" type="text" id="username" name="username" placeholder="用户名">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-50" style="margin-top: -3vh;">
+							<input class="input100 " type="password" id="txt_password" name="password" placeholder="密码">
+							<img src="img/hide.png" style="position: absolute;top:-7vh ;left:70vw;width: 6vw;top: 1vh ;" id="hide">
+							<img src="img/show.png" style="position: absolute;top:-7vh ;left:70vw;width: 6vw;display:none;top: 1vh ;" id="show">
+							<span class="focus-input100" style="height: 11vh;"></span>
+						</div>
+					</form>
+					<div class="container-login100-form-btn">
+						<button type="submit" id="registOrLogin" class="login100-form-btn" style="width: 100%;margin-top:-2vh;">
+							登录
+						</button>
+						<span class="mui-col-xs-4" style="margin-top: 5vh;font-size: 1rem;"  id="wangjimima">忘记密码</span>
+						<span class="mui-col-xs-4"></span>
+						<span class="mui-col-xs-4" style="margin-top:5vh;font-size: 1.2rem;" id="zhanghao">
+							<a style="font-size: 1.2rem;">注册账号</a>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" charset="utf-8">
+			document.getElementById("hide").addEventListener("click", function() {
+				document.getElementById("show").style.display = "inline-block";
+				document.getElementById("hide").style.display = "none";
+				document.getElementById("txt_password").type = "text";
+			})
+
+
+			document.getElementById("show").addEventListener("click", function() {
+				document.getElementById("hide").style.display = "inline-block";
+				document.getElementById("show").style.display = "none";
+				document.getElementById("txt_password").type = "password";
+			})
+			
+			document.getElementById("wangjimima").addEventListener('tap',function(){
+				plus.webview.create("wangjimima.html", "wangjimima.html");
+			plus.webview.show('wangjimima.html',"wangjimima.html");
+				
+			});
+		</script>
+
+        <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				document.getElementById("zhanghao").addEventListener("click", function() {
+
+					var w = plus.webview.create("zhanghao.html", "zhanghao.html");
+					plus.webview.show(w);
+				});
+
+
+
+				// 判断用户是否注册登录过，如果本地内存有全局的用户对象，此时直接跳转到首页
+				var userInfo =  app.getUserGlobalInfo();
+				if (userInfo != null) {
+					// 页面跳转
+						plus.webview.create("index.html", "index.html");
+					plus.webview.show('index.html',"index.html");
+				}
+
+				var userform = document.getElementById("userform");
+				var username = document.getElementById("username");
+				var txt_password = document.getElementById("txt_password");
+
+				document.getElementById('registOrLogin').addEventListener("click", function(e) {
+
+					plus.webview.create("index.html", "index.html");
+
+					var page = mui.preload({
+						url: 'index.html',
+						id: 'index.html' //默认使用当前页面的url作为id
+
+					});
+
+					// 判断用户名是否为空，如果为空则让其获得焦点
+					if (!app.isNotNull(username.value)) {
+						// 获取焦点
+						username.focus();
+					} else if (!app.isNotNull(txt_password.value)) {
+						// 获取焦点
+						txt_password.focus();
+					} else {
+						// 判断用户名和密码的长度，进行限制
+						if (username.value.length > 12) {
+							app.showToast("用户名不能超过12", "error");
+							return false;
+						} else if (txt_password.value.length > 12) {
+							app.showToast("密码不能超过12", "error");
+							return false;
+						}
+
+						// 获取每台手机的唯一cid
+						var cid = plus.push.getClientInfo().clientid;
+						// 与后端联调
+						mui.ajax(app.serverUrl + "/u/registOrLogin", {
+							data: {
+								username: username.value,
+								password: txt_password.value,
+								cid: cid
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/x-www-form-urlencoded'
+							},
+
+
+							success: function(data) {
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+															
+								console.log(JSON.stringify(data));
+								username.blur();
+								txt_password.blur();
+
+								if (data.status == 200) {
+									// 登录或者注册成功之后，保存全局用户对象到本地缓存
+									var userInfoJson = data.data;
+									
+									console.log(userInfoJson.id );
+									app.setUserGlobalInfo(userInfoJson);
+									
+									app.cunrushuju(userInfoJson);
+					
+									// 页面跳转
+									plus.webview.show(page);
+
+
+								} else {
+									app.showToast(data.msg, "error");
+
+
+								}
+							}
+						});
+
+					}
+
+
+					// 阻止默认时间，阻止默认表单提交
+					e.preventDefault();
+
+				});
+				
+				
+
+				//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+				var first = null;
+				mui.back = function() {
+					//首次按键，提示‘再按一次退出应用’
+					if (!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if (new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				};
+				
+			})
+		</script>
+
+
+
+
+
+
+
+
+
+
+
+	</body>
+</html>

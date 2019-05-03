@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style type="text/css">
+			* {
+				margin: 0px;
+				padding: 0px;
+				font-size: 14px;
+			}
+
+			#footer {
+				background: #FFFFFF;
+				height: 14vh;
+				width: 100%;
+				padding: 12px;
+				position: fixed;
+				left: 0px;
+				bottom: 0px;
+				line-height: 30px;
+			}
+
+			#goto {
+				width: 58px;
+				height: 58px;
+				background: url(img/dingwei.png) no-repeat center center #51C332;
+				background-size: 80% 80%;
+				position: fixed;
+				z-index: 11;
+				right: 15px;
+				bottom: 15px;
+				border-radius: 58px;
+			}
+		</style>
+
+
+
+
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<div id="map" style="width: 100%;height: 86vh;"></div>
+		<div id="footer">
+			[当前位置]<br />
+			<span id="address" style="width: 70vw;"></span>
+		</div>
+		<div id="goto"></div>
+
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function() {
+
+				var zhongxin, addressh, address,center;
+
+
+				function showMap() {
+					plus.nativeUI.showWaiting();
+					//创建地图
+					var map =  new plus.maps.Map('map');
+					//设置缩放级别
+					map.setZoom(18);
+					//开启用户位置显示
+					map.showUserLocation(true);
+					//获取用户位置信息
+					map.getUserLocation(function(state, point) {
+						console.log(JSON.stringify(point));
+						locationPos = point;
+						center = new plus.maps.Point(point.longitude, point.latitude);
+
+					});
+
+					function showTraffic() {
+						map.setTraffic(true);
+					}
+
+					var x;
+					var zhongxinIcon;
+
+					map.onclick = function(point) {
+
+						map.removeOverlay(zhongxinIcon);
+
+						zhongxin = new plus.maps.Point(point.longitude, point.latitude);
+
+
+						map.setCenter(zhongxin);
+
+						zhongxinIcon = new plus.maps.Marker(zhongxin);
+						zhongxinIcon.setIcon('img/zhong.png');
+
+
+
+						plus.maps.Map.reverseGeocode(zhongxin, {}, function(event) {
+
+							addressh = event.address; // 转换后的地理位置
+							var coordType = event.coordType; // 转换后的坐标系类型
+
+							hh = addressh;
+
+							var bubble = new plus.maps.Bubble(hh);
+							zhongxinIcon.setBubble(bubble);
+ 
+							if (x != true) {
+								var x = map.addOverlay(zhongxinIcon);
+							}
+
+						}, function(e) {
+							alert("Failed:" + JSON.stringify(e));
+						});
+					};
+				};
+				//获取用户地址信息
+			plus.geolocation.watchPosition(function(p) {
+					plus.nativeUI.closeWaiting();
+					console.log(JSON.stringify(p));
+					address = p.address.poiName;
+					document.getElementById('address').innerHTML = address;
+
+				}, function() {
+
+				});
+
+				showMap(); 
+
+
+				document.getElementById('goto').addEventListener('tap', function() {
+					
+					var dst = zhongxin;
+					
+					var src = address; 
+					
+					console.log(center);
+					
+					plus.maps.openSysMap(zhongxin, addressh, center);
+				});
+
+
+			})
+		</script>
+
+
+	</body>
+
+</html>

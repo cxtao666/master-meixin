@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+            
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		
+		
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"><span style="font-size: 17px;">我</span></a>
+			<h1 class="mui-title">更多功能</h1>
+		</header>
+		
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media"   id="ditu">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="img/ditu.png">
+						<div class="mui-media-body"  style="margin-top: 2vh;">
+							小地图
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;"  id="richeng">
+						<img class="mui-media-object mui-pull-left" src="img/richengbiao.png">
+						<div class="mui-media-body" style="margin-top: 2vh;">
+							日程表
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;"  id="wenjian">
+						<img class="mui-media-object mui-pull-left" src="img/wenjianjai.png">
+						<div class="mui-media-body" style="margin-top: 2vh;">
+						   文件助手
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		
+		
+		<script  type="text/javascript" charset="utf-8">
+			
+			document.getElementById("ditu").addEventListener("tap",function(){
+				
+				 mui.openWindow("ditu.html","ditu.html");
+			});
+			
+			document.getElementById("wenjian").addEventListener("tap",function(){
+				
+				 mui.openWindow("wenjian.html","wenjian.html");
+			});
+			
+			document.getElementById("richeng").addEventListener("tap",function(){
+				
+				 mui.openWindow("richeng.html","richeng.html");
+			});
+			
+		</script>
+		
+		
+		
+		
+		
+		
+		
+	</body>
+
+</html>

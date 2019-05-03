@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<a class=" mui-icon mui-icon-right-nav mui-pull-right" id="menus">...</a>
+		<h1 class="mui-title">我的头像</h1>
+	</header>
+	<div class="mui-content">
+		<img id="imgs" src="img/face-default-cat.png">
+	</div>
+
+	<div id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action ">
+		<!-- 可选择菜单 -->
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell" id="xuanze">
+				<a href="#">选择照片</a>
+			</li>
+			<li class="mui-table-view-cell" id="baocun">
+				<a href="#">保存照片</a>
+			</li>
+		</ul>
+		<!-- 取消菜单 -->
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell">
+				<a href="#sheet1"><b>取消</b></a>
+			</li>
+		</ul>
+	</div>
+
+	<body>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			mui.plusReady(function() {
+
+				var imgWidth = document.body.clientWidth;
+				imgs.width = imgWidth;
+				imgs.height = imgWidth;
+
+
+				var x = plus.webview.currentWebview();
+				x.addEventListener('show', function(e) {
+
+					var user = app.getUserGlobalInfo();
+					var img_my_face = document.getElementById("imgs");
+					if (user != null) {
+						var faceImage = user.faceImageBig;
+						if (app.isNotNull(faceImage)) {
+							img_my_face.src = app.imgServerUrl + faceImage;
+						}
+					}
+					console.log(app.imgServerUrl + faceImage);
+				})
+
+
+
+
+				document.getElementById("menus").addEventListener('tap', function() {
+					mui('#sheet1').popover('toggle');
+				})
+
+
+
+
+				document.getElementById('xuanze').addEventListener('tap', function() {
+					plus.webview.create("plugin/v3.1.6/myface-uploader.html", "myface-uploader.html");
+					plus.webview.show("myface-uploader.html");
+
+				})
+
+
+
+				window.addEventListener('refresh', function(e) {
+					var user = app.getUserGlobalInfo();
+					var img_my_face = document.getElementById("imgs");
+
+					if (user != null) {
+						var faceImage = user.faceImageBig;
+						if (app.isNotNull(faceImage)) {
+							img_my_face.src = app.imgServerUrl + faceImage;
+						}
+					}
+				})
+
+
+
+
+
+
+				var link_savePhoto = document.getElementById("baocun");
+				link_savePhoto.addEventListener("tap", function() {
+
+					plus.nativeUI.showWaiting("下载中...");
+
+					var user = app.getUserGlobalInfo();
+					var faceImage = user.faceImageBig;
+
+					var dtast = plus.downloader.createDownload(
+						app.imgServerUrl + faceImage, {},
+						function(downloadFile, status) {
+
+							plus.nativeUI.closeWaiting();
+
+							if (status == 200) {
+								var tempFile = downloadFile.filename;
+
+								// 通过相册api保存照片到本地相册
+								plus.gallery.save(tempFile, function() {
+									app.showToast("保存照片成功！", "success");
+								})
+
+							} else {
+								app.showToast("下载错误...", "error");
+								console.log("下载错误...");
+							}
+
+						}
+					);
+					dtast.start(); // 启动下载任务
+
+				});
+
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+
+	<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="css/xiugai.css" />
+		<script src="js/mui.js"></script>
+	
+		<script type="text/javascript">
+			mui.init({
+				gestureConfig: {
+					tap: true, //默认为true
+					doubletap: true, //默认为false
+					longtap: true, //默认为false
+					swipe: true, //默认为true
+					drag: true, //默认为true
+					hold: false, //默认为false，不监听
+					release: false //默认为false，不监听
+				},
+			});
+			mui.plusReady(function() {
+
+
+				plus.navigator.setStatusBarStyle('dark');
+				plus.navigator.setStatusBarBackground("#f7f7f7");
+
+
+			});
+		</script>
+
+		<style type="text/css">
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #2AC845;
+			}
+
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #2AC845;
+			}
+
+			.mui-table-view-cell:active {
+				background: #eee;
+			}
+
+			* {
+				touch-action: pan-y;
+			}
+		</style>
+
+
+	</head>
+	<body>
+
+		<header class="mui-bar mui-bar-nav" id="show">
+			<h1 class="mui-title" style="font-family: " microsoft yahei";font-size: 1.875rem;font-weight: 600;">袂信</h1>
+			<a href="" id="menu" class="mui-icon mui-icon-plus " style="float:right; position: relative; color: black;font-size: 23px;"></a>
+			<a id="sousuo" class="mui-icon mui-icon-search" style="float:right; position: relative;right: 2rem; color:black;font-size: 23px;" /><a>
+				<div id="" style="clear: both;"></div>
+		</header>
+
+
+
+
+		</ul>
+		</div>
+
+
+		<nav class="mui-bar mui-bar-tab" style="display: initial;">
+			<a id="zhuye.html" class="mui-tab-item mui-active " tabindex="0">
+				<span class="mui-icon mui-icon-chatbubble" style="font-size: 25px;"></span>
+				<span class="mui-tab-label">袂信</span>
+			</a>
+			<a class="mui-tab-item" id="tongxunlu.html" tabindex="1">
+				<span class="fa  fa-drivers-license-o mui-icon" style="font-size: 20px;"></span>
+				<span class=" mui-tab-label">通讯录</span>
+			</a>
+			<a class="mui-tab-item" id="faxian.html" tabindex="2">
+				<span class="fa  fa-bandcamp mui-icon" style="font-size: 20px;"></span>
+				<span class="mui-tab-label">发现</span>
+			</a>
+			<a class="mui-tab-item" id="me.html" tabindex="3">
+				<span class="mui-icon mui-icon-person" style="font-size: 25px;"></span>
+				<span class="mui-tab-label">我</span>
+			</a>
+		</nav>
+
+
+
+
+		<script type="text/javascript" charset="utf-8">
+			var b = document.getElementsByClassName("mui-tab-item");
+			var c = document.getElementsByClassName("mui-tab-label");
+
+			for (let x = 0; x < 4; x++) {
+				b[x].addEventListener('tap', function() {
+
+					document.getElementsByClassName('mui-title')[0].innerHTML = c[x].innerHTML;
+
+				});
+			}
+
+
+
+
+			//3.让硬件设备准备完毕后再去渲染子页面 
+			mui.plusReady(function() {
+
+
+				var muxinArray = [{
+						pageId: "zhuye.html",
+						pageUrl: "zhuye.html"
+					},
+					{
+						pageId: "tongxunlu.html",
+						pageUrl: "tongxunlu.html"
+					},
+					{
+						pageId: "faxian.html",
+						pageUrl: "faxian.html"
+					},
+					{
+						pageId: "me.html",
+						pageUrl: "me.html"
+					}
+				];
+
+				var muxinStyle = {
+					top: "44px",
+					bottom: "50px"
+				}
+
+
+
+				// 获取当前的webview对象
+				var indexWebview = plus.webview.currentWebview()
+
+				// 向当前的主页webview追加子页的4张webview对象
+				for (var i = 0; i < muxinArray.length; i++) {
+					var muxinPage = plus.webview.create(muxinArray[i].pageUrl,
+						muxinArray[i].pageId,
+						muxinStyle);
+					// 隐藏webview窗口
+					muxinPage.hide();
+					// 追加每一个子页面到当前主页面
+					indexWebview.append(muxinPage);
+				}
+				plus.webview.show(muxinArray[0].pageId);
+
+
+				// 批量绑定tap事件，展示不同的页面
+				mui(".mui-bar-tab").on("tap", "a", function() {
+					var tabindex = this.getAttribute("tabindex");
+
+					// 显示点击的tab选项所对应的页面
+					plus.webview.show(muxinArray[tabindex].pageId, "fade-in", 200);
+
+					// 隐藏其他的不需要的页面
+					for (var i = 0; i < muxinArray.length; i++) {
+						if (i != tabindex) {
+							plus.webview.hide(muxinArray[i].pageId, "fade-out", 100);
+						}
+					}
+				})
+
+				// 延时加载
+
+				function initData() {
+					var imooc_chatlist = plus.webview.getWebviewById("zhuye.html");
+					mui.fire(imooc_chatlist, "refresh");
+
+					var imooc_me = plus.webview.getWebviewById("me.html");
+					mui.fire(imooc_me, "refresh");
+				}
+
+				setTimeout(initData, "1000");
+
+
+
+				// 监听网络状态更改
+
+				document.addEventListener("netchange", function() {
+					// 网络状态获取和判断
+					var connectionStatus = plus.networkinfo.getCurrentType();
+					if (connectionStatus != 0 && connectionStatus != 1) {
+
+
+					} else {
+						// 关闭网络连接
+						plus.nativeUI.alert("请连接网络", function() {
+							console.log("User pressed!");
+						}, "袂信", "OK");
+						console.log('1');
+					}
+				});
+
+
+				// 预加载
+				document.getElementById('sousuo').addEventListener('tap', function() {
+					plus.webview.create('sousuo.html', 'sousuo.html');
+					plus.webview.show('sousuo.html');
+				});
+
+
+
+
+
+
+				window.addEventListener('sw', function(e) {
+					if (e.detail.mydata) {
+						var y = e.detail.mydata1;
+						var x = e.detail.mydata;
+						var num = e.detail.number;
+						document.getElementById(y).classList.remove('mui-active');
+						document.getElementById(x).classList.add('mui-active');
+						var d = document.getElementsByClassName("mui-tab-label");
+						document.getElementsByClassName('mui-title')[0].innerHTML = d[num].innerHTML;
+					}
+				})
+
+				var floatw = null;
+				var self = plus.webview.currentWebview();
+
+
+
+				document.getElementById('menu').addEventListener('tap', function() {
+					if (plus.webview.show("menu.html")) { // 避免快速多次点击创建多个窗口
+						//floatw.show("fade-in",300);
+
+						plus.webview.hide("menu.html");
+
+
+					} else {
+
+						floatw = plus.webview.create("menu.html", "menu.html", {
+							background: 'transparent'
+
+						});
+
+						floatw.show("fade-in", 300);
+
+
+					}
+				});
+
+				var backcount = 0;
+
+				//首页返回键处理
+				//处理逻辑：1秒内，连续两次按返回键，则进入后台；
+				var first = null;
+				mui.back = function() {
+					//首次按键，提示‘再按一次退出应用’
+					if (!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if (new Date().getTime() - first < 1000) {
+							var main = plus.android.runtimeMainActivity();
+							main.moveTaskToBack(false);
+						}
+					}
+				};
+
+
+				var x = plus.webview.getWebviewById("tongxunlu.html");
+				console.log(x);
+
+			});
+
+			//用户操作 
+			// 创建子页面，首个选项卡页面显示，其它均隐藏；
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		.mui-table-view-cell:active{
+			height: 200x;
+			background: #4CD964;
+		}
+	</style>
+	<script type="text/javascript">
+		mui.init({
+	swipeBack:true //启用右滑关闭功能
+});
+	</script>
+	
+		
+	</head>
+	
+	
+	
+	<body>
+		
+		
+	<div class="mui-content">
+	<ul class="mui-table-view" style="height: 10vh;">
+    <li class="mui-table-view-cell" style="height: 10vh;">
+		<a ><img src="img/friends.png" style="height: 5vh;width: 10vw; margin-left: 5vw;"></a>
+        <a style="position: relative; left:23vw;top:-6vh;font-size: 20px; ">朋友圈</a>
+		<a class="mui-navigate-right" style="top:-10vh"></a>
+    </li>
+	</ul>
+	</div>
+	<br>
+		<div class="mui-content">
+			<ul class="mui-table-view"  >
+			<li class="mui-table-view-cell"  style="height:10vh;" id="saoyisao">
+				<a  ><img src="img/scanscan.png" style="height: 5vh;width: 10vw;  margin-left: 5vw;"></a>
+			    <a    style="position: relative;left:23vw;top:-6vh;font-size: 20px; ">扫一扫</a>
+				<a class="mui-navigate-right" style="top:-10vh"></a>
+			</li>
+			<li class="mui-table-view-cell"  style="height: 10vh;"id="addfriend">
+				<a ><img src="img/addfriends.png" style="height: 5vh;width: 10vw;  margin-left: 5vw;"></a>
+			    <a   style="position: relative;left:23vw;top:-6vh;font-size: 20px " >加好友</a>
+				<a class="mui-navigate-right"  style="top:-10vh"></a>
+			</li>
+			</ul>
+			
+			</div>
+			<script  type="text/javascript" charset="utf-8">
+			mui.plusReady(function(){
+			document.getElementById("addfriend").addEventListener("tap",function(){
+				plus.webview.open("addfriend.html","addfriend.html");
+			})
+				document.getElementById("saoyisao").addEventListener("tap",function(){
+					plus.webview.open("saoyisao.html","saoyisao.html");
+				})
+				
+			}
+		);
+		
+			</script>
+			
+			
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function () {
+		    window.addEventListener("swipeleft",function(){
+			plus.webview.hide("faxian.html");
+			plus.webview.show( "me.html","fade-in", 200 );
+			var x = plus.webview.getWebviewById("index.html");
+			if(x){
+				mui.fire(x,'sw',{mydata:"me.html",mydata1:"faxian.html",number:"3"})
+				
+			}
+			
+			
+		});
+		})
+			mui.plusReady(function () {
+			    window.addEventListener("swiperight",function(){
+				plus.webview.hide("faxian.html");
+				plus.webview.show( "tongxunlu.html","fade-in", 200 );
+				var x = plus.webview.getWebviewById("index.html");
+				if(x){
+					mui.fire(x,'sw',{mydata:"tongxunlu.html",mydata1:"faxian.html",number:"1"})
+					
+				}
+				
+				
+			});
+			})
+		</script>
+		
+		
+	</body>
+</html>

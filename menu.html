@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet"  href="css/mui.min.css" type="text/css" charset="utf-8" />
+	
+	<style type="text/css">
+		html {
+			width: 100%;
+			height: 100%;
+		}
+		
+		body {
+			height: 100%;
+			background-color: transparent;
+		}
+		
+		.mui-popover .mui-popover-arrow {
+			left: auto;
+			right: 10px!important;
+		}
+		
+		.mui-popover {
+			display: block;
+			width: auto;
+			opacity: 1;
+			text-align: center;
+		}
+		
+		.mui-table-view-cell> a:not(.mui-btn) {
+			color: #000;
+		}
+	</style>
+
+</head>
+<body>
+	<a style="display: block;height: 100%; background:url(../img/mask.png);"></a>
+	<div id="topPopover" class="mui-popover" style="position:fixed ;top: 60px;right:5px;">
+		<div class="mui-popover-arrow" style="top: -30px;"></div>
+		<ul class="mui-table-view" style="color: #fff; top: -4px;right: 0;"  style="background-color: #8F8F94;"> 
+			 <li class="mui-table-view-cell mui-media"  style="height: 8vh;" id="adfriend">
+        <a href="javascript:;">
+            <img class="mui-media-object mui-pull-left" src="img/friend.png">
+            <div class="mui-media-body" style="margin-top: 10px;">
+               添加朋友
+            </div>
+        </a>
+    </li>
+			<li class="mui-table-view-cell mui-media"  style="height: 8vh;"  id="saoyisao">
+			    <a href="javascript:;">
+			        <img class="mui-media-object mui-pull-left" src="img/erweima.png">
+			        <div class="mui-media-body" style="margin-top: 10px;">
+			         扫一扫
+			        </div>
+			    </a>
+			</li>
+			<li class="mui-table-view-cell mui-media"  style="height: 8vh;" id="shuaxin">
+			    <a href="javascript:;">
+			        <img class="mui-media-object mui-pull-left" src="img/shuaxin.png">
+			        <div class="mui-media-body" style="margin-top: 10px;">
+			        刷新页面
+			        </div>
+			    </a>
+			</li>
+			<li class="mui-table-view-cell mui-media"  style="height: 8vh;" id="tuichu">
+			    <a href="javascript:;">
+			        <img class="mui-media-object mui-pull-left" src="img/tuichu.png">
+			        <div class="mui-media-body" style="margin-top: 10px;">
+			        退出
+			        </div>
+			    </a>
+			</li>
+		</ul>
+	</div>
+</body>
+
+<script src="../js/mui.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init({
+	  preloadPages:[{
+	    id:'tab-webview-main.html',
+	    url:'tab-webview-main.html'           
+	  }
+	  ]
+	});
+	mui.plusReady(function() {
+		ws = plus.webview.currentWebview();
+		ws.setStyle({
+			mask: "none"
+		});
+		window.addEventListener("tap", function() {
+			ws.close();
+			
+		});
+		
+		 
+	        document.getElementById("adfriend").addEventListener('tap',function(){
+				var x = plus.webview.currentWebview();
+				x.close();
+				plus.webview.open('addfriend.html','addfriend.html');
+			});
+	
+	          document.getElementById('saoyisao').addEventListener('tap',function(){
+				  var x = plus.webview.currentWebview();
+				  x.close();
+				  plus.webview.open('saoyisao.html','saoyisao.html');
+			  });
+	 
+	            document.getElementById('shuaxin').addEventListener('tap',function(){
+					var x = plus.webview.currentWebview();
+					x.close();
+					plus.webview.open('index.html','index.html');
+				})
+	 document.getElementById('tuichu').addEventListener('tap',function(){
+		var x = plus.webview.currentWebview();
+		
+	var y =	plus.webview.getWebviewById( 'index.html' );
+		 x.close();
+		y.show();
+		
+	 })
+	 
+	});
+	
+	
+	
+</script>
+
+	
+
+</html>

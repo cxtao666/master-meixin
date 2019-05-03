@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		
+		<div style="height: 10vh;">
+		</div>
+		<div class="" style="height: 10vh;color: #323232;font-weight: 600;font-size: 1.5rem;">
+			欢迎注册袂信!
+		</div>
+		<div class="mui-input-group" >
+    <div class="mui-input-row"  >
+        <label>用户名：</label>
+        <input type="text" class="mui-input-clear" placeholder="请输入用户名"  id="username">
+    </div>
+    <div class="mui-input-row"  >
+        <label>密码：</label>
+        <input type="password" class="mui-input-clear mui-input-password" placeholder="请输入密码" id="txt_password">
+    </div>
+</div>
+<div class="mui-button-row">
+        <button type="submit" style="width: 75%;margin: auto;color: #2AC845;margin-top: 4vh;" id="userform">确认注册</button>
+    </div>
+	
+	<script  type="text/javascript" charset="utf-8">
+		
+	mui.plusReady(function() {
+				
+					// 判断用户是否注册登录过，如果本地内存有全局的用户对象，此时直接跳转到首页
+	
+					var userform = document.getElementById("userform");
+					var username = document.getElementById("username");
+					var txt_password = document.getElementById("txt_password");
+	
+					userform.addEventListener("tap", function(e) {
+						// 判断用户名是否为空，如果为空则让其获得焦点
+						if (!app.isNotNull(username.value)) {
+							// 获取焦点
+							username.focus();
+						} else if (!app.isNotNull(txt_password.value)) {
+							// 获取焦点
+							txt_password.focus();
+						} else {
+							// 判断用户名和密码的长度，进行限制
+							if (username.value.length > 12) {
+								app.showToast("用户名不能超过12", "error");
+								return false;
+							} else if (txt_password.value.length > 12) {
+								app.showToast("密码不能超过12", "error");
+								return false;
+							}
+	
+							// 获取每台手机的唯一cid
+							var cid = plus.push.getClientInfo().clientid;
+							// 与后端联调
+							mui.ajax(app.serverUrl + "/u/registOrLogin", {
+								data: {
+									username: username.value,
+									password: txt_password.value,
+									cid: cid
+								},
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型
+								timeout: 10000, //超时时间设置为10秒；
+						headers:{'Content-Type':'application/x-www-form-urlencoded'},	              
+								success: function(data) {
+									//服务器返回响应，根据响应结果，分析是否登录成功；
+									
+	
+									username.blur();
+									txt_password.blur();
+	
+									if (data.status == 200) {
+										// 登录或者注册成功之后，保存全局用户对象到本地缓存
+										var userInfoJson = data.data;
+										app.setUserGlobalInfo(userInfoJson);
+										
+	                                app.cunrushuju(userInfoJson);
+									
+										// 页面跳转
+										mui.openWindow("index.html", "index.html");
+										
+									} else {
+										app.showToast(data.msg, "error");
+									
+										
+									}
+								}
+							});
+	
+						}
+	
+	
+						// 阻止默认时间，阻止默认表单提交
+						e.preventDefault();
+	
+					});
+				})	
+		
+		
+		
+		
+		
+		
+	</script>
+	
+	
+	
+		
+	</head>
+	<body>
+	</body>
+</html>

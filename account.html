@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/feedback.css"/>
+	<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+			mui.init()
+		</script>
+		
+</head>
+	<body>
+		
+		
+		
+		<div id="account" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>我
+				</button>
+				<h1 class="mui-center mui-title">账号与安全</h1>
+			</div>
+			<div class="mui-page-content" style="margin-top: ;">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell"  >
+								<a id="head" class="mui-navigate-right">头像
+								<span class="mui-pull-right head">
+									<img class="head-img mui-action-preview" id="head-img1" src=""/>
+								</span>
+							</a>
+							</li>
+						</ul>
+						<li class="mui-table-view-cell" style="height: 4vh;list-style-type:none">
+							<a></a>
+						</li>
+						
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell"  id="touxiang">
+								<a id="head" class="mui-navigate-right" >
+									<span class="mui-pull-left head" style="margin-top: 2vh;">头像</span>
+								<span class="mui-pull-right head">
+									<img id="face" class="mui-media-object mui-pull-left head-img" id="head-img" src="img/face-default-cat.png" style="margin-right:8vw;">
+								</span>
+							</a>
+							</li>
+							<li class="mui-table-view-cell" id="erweima">
+								<a id="head" class="mui-navigate-right">
+		                      <span class="mui-pull-left head" style="margin-top: 1vh;">我的二维码</span>
+								<span class="mui-pull-right head">
+									<img class="head-img mui-action-preview" id="" src="img/qrcode.png"  style="margin-right: 8vw;">
+								</span>
+							</a>
+							</li>
+							<li class="mui-table-view-cell"  id="name0">
+								<a>昵称<span class="mui-pull-right" id="name"></span></a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a>袂信账号<span class="mui-pull-right" id="zhanghao"></span></a>
+							</li>
+						</ul>
+						<li class="mui-table-view-cell" style="height: 4vh;list-style-type:none">
+							<a></a>
+						</li>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell" id="qq0">
+								<a>QQ号<span class="mui-pull-right" id="qq">88888888</span></a>
+							</li>
+							<li class="mui-table-view-cell" id="shoujihao0">
+								<a>手机号<span class="mui-pull-right" id="shoujihao">18601234567</span></a>
+							</li>
+							<li class="mui-table-view-cell"  id="mail0">
+								<a>邮箱地址<span class="mui-pull-right"  id="mail"></span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script  type="text/javascript" charset="utf-8">
+			
+			
+			
+			mui.plusReady(
+			function () {	
+				
+				var user = app.getUserGlobalInfo();
+				var img_my_face = document.getElementById("face");
+				if(user != null) {
+					var faceImage = user.faceImage;
+					if(app.isNotNull(faceImage)) {
+						img_my_face.src = app.imgServerUrl + faceImage;
+					}
+				}
+			
+		    
+			  	
+					  
+		
+		   
+			
+		function  zhanghao(){
+			var userInfoStr = plus.storage.getItem('userInfo');	
+			var foo = JSON.parse(userInfoStr);
+				document.getElementById('zhanghao').innerHTML = foo.username;
+		};
+		zhanghao();
+		
+		document.getElementById('erweima').addEventListener('tap',function(){
+			plus.webview.create('erweima.html','erweima.html');
+			plus.webview.show('erweima.html');
+		})
+		
+		
+	var userInfoStr = plus.storage.getItem('userInfo');	
+	var foo = JSON.parse(userInfoStr);
+	    console.log(foo);
+		document.getElementById('name').innerHTML = foo.nickname;
+		
+		
+		
+		
+		
+		document.getElementById("name0").addEventListener('tap',function(){
+						
+				plus.webview.create('nicheng.html','nicheng.html');
+				plus.webview.show('nicheng.html');						
+						
+		});
+			
+					
+			
+			document.getElementById("qq0").addEventListener('tap',function(){
+				plus.nativeUI.prompt( "请输入QQ号", function(e){
+		console.log( ((e.index==0)?"OK: ":"Cancel")+e.value );
+		if(e.value.length!=0)
+		{
+			plus.storage.setItem('qqnumber', e.value);
+		}
+			
+			document.getElementById('qq').innerHTML=plus.storage.getItem('qqnumber');
+	},"袂信", "", ["OK","取消"]);
+});
+	document.getElementById('qq').innerHTML=plus.storage.getItem('qqnumber');
+		
+		
+		
+		
+		document.getElementById("shoujihao0").addEventListener('tap',function(){
+						plus.nativeUI.prompt( "请输入手机号", function(e){
+				console.log( ((e.index==0)?"OK: ":"Cancel")+e.value );
+				if(e.value.length!=0)
+				{
+					plus.storage.setItem('shoujinumber', e.value);
+				}
+					
+					document.getElementById('shoujihao').innerHTML=plus.storage.getItem('shoujinumber');
+			},"袂信", "", ["OK","取消"]);
+		});
+			document.getElementById('shoujihao').innerHTML=plus.storage.getItem('shoujinumber');
+		
+		document.getElementById("mail0").addEventListener('tap',function(){
+						plus.nativeUI.prompt( "请输入邮箱地址", function(e){
+				console.log( ((e.index==0)?"OK: ":"Cancel")+e.value );
+				if(e.value.length!=0)
+				{
+					plus.storage.setItem('mailnumber', e.value);
+				}
+					
+					document.getElementById('mail').innerHTML=plus.storage.getItem('mailnumber');
+			},"袂信", "", ["OK","取消"]);
+		});
+			document.getElementById('mail').innerHTML=plus.storage.getItem('mailnumber');
+		
+		
+		document.getElementById('touxiang').addEventListener('tap',function(){
+			plus.webview.create('face.html','face.html');
+			plus.webview.show('face.html');
+			
+		});
+		
+			window.addEventListener('refresh',function(e){
+			var user = app.getUserGlobalInfo();
+			var img_my_face = document.getElementById("face");
+			if(user != null) {
+				var faceImage = user.faceImage;
+				if(app.isNotNull(faceImage)) {
+					img_my_face.src = app.imgServerUrl + faceImage;
+				}
+			}
+			
+			var mingcheng = document.getElementById('name');
+			if(user != null) {
+				var faceImage = user.nickname;
+				if(app.isNotNull(faceImage)) {
+					mingcheng.innerHTML = faceImage;
+				}
+			}
+			
+			
+			
+			})
+			
+			});
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style type="text/css">
+			#list {
+				height: auto;
+				border: 1px solid #ccc;
+				display: none;
+				position: absolute;
+				top: 53px;
+			}
+
+			#wei ul li {
+				width: 498px;
+				height: 30px;
+				line-height: 30px;
+				text-indent: 10px;
+				font-size: 16px;
+				list-style: none;
+				color: #000;
+			}
+
+			#wei ul li a {
+				text-decoration: none;
+				color: #000;
+			}
+
+			#wei ul li:hover {
+				display: block;
+				background: #ccc;
+				color: #fff;
+			}
+		</style>
+
+
+
+	</head>
+
+	<body>
+
+		<div class="mui-content" style="margin-top: 5vh;">
+
+			<body>
+
+				<div id="wei">
+					<div id="" style="margin-bottom: 3vh;color: #6D6D72;">
+						请输入：
+					</div>
+					<input list="languageList" id="value" type="text" style="margin-left: 5vw;width: 72vw;" />
+					<input type="button" name="" id="btn" value="确定" / style="margin-left: 3vw;margin-top: 4px;">
+					<ul id="languageList">
+					</ul>
+				</div>
+
+
+			</body </div> <script src="js/mui.js">
+			</script>
+			<script type="text/javascript">
+				mui.init()
+			</script>
+
+<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+			<script>
+				 mui.plusReady(function () {
+				     
+				})
+			
+				/*设置监听事件，向输入框中输入内容，当键盘按键弹起的时候，将输入的内容作为参数传入到函数info中*/
+				var oBtn = document.getElementById('btn');
+				var oUl = document.getElementById('languageList')
+				var txt = document.getElementById('value')
+
+
+				document.getElementById("value").addEventListener("keyup", function(event) {
+					/*当键盘按下上下键的时候，不进行监听，否则会与keyup事件起冲突*/
+					if (event.keyCode == 38 || event.keyCode == 40) {
+						return false;
+					}
+					var value = document.getElementById("value").value;
+
+					oUl.innerHTML = "";
+					var val = value;
+					var oScript = document.createElement("script"); //动态创建script标签  
+					oScript.src = "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=" + val + "&cb=callback";
+					//添加链接及回调函数  
+					document.body.appendChild(oScript); //添加script标签  
+					document.body.removeChild(oScript); //删除script标签  
+				})
+               
+				   
+				function callback(data) {
+					data.s.forEach(function(value) {
+						let oLi = document.createElement("li");
+						oLi.innerHTML = '<a>' + value + "</a>";
+						
+					let	href=" https://www.qwant.com/?q= "+ value + ' &t=web ';
+						
+					oLi.addEventListener('tap',function(){
+						
+					var ws = plus.webview.currentWebview();
+					plus.webview.prefetchURL(href);
+					
+					wn = plus.webview.create('test.html', 'test.html', {
+						render: 'always'
+					},{ preload: href});
+					wn.show('none');	
+						
+						
+					});		
+						oUl.appendChild(oLi);
+					})
+					oUl.style.display = "block";
+				}
+				//点击跳转到百度页面，并搜索其中内容
+				oBtn.onclick = function() {
+					var val = txt.value;
+					
+					
+					if(txt.value!=""){
+					
+					url = "https://www.qwant.com/?q=" + val + "&t=web";
+					var ws = plus.webview.currentWebview();
+					plus.webview.prefetchURL(url);
+					
+					wn = plus.webview.create('test.html', 'test.html', {
+						render: 'always'
+					},{ preload: url});
+					wn.show('none');
+
+				}else{
+							alert("请输入搜索内容");
+						}
+				
+				
+			}	
+				document.getElementById("value").addEventListener('keypress',function(e){
+					if(event.keyCode==13){
+						
+							oBtn.onclick();
+						
+						
+					}
+					
+				});
+			</script>
+	</body>
+
+</html>
