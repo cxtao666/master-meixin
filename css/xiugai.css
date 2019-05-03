@@ -1,0 +1,22 @@
+	.mui-bar .mui-title
+		{
+		
+		right: initial;
+		}
+	.mui-bar-tab .mui-tab-item
+	{
+		vertical-align: initial;
+		
+	}
+	.mui-bar .mui-icon
+	{
+		font-size: initial;
+		
+	}
+	.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label
+	{
+		font-size: 14px;
+		font-weight: 500;
+		font-family: "微软雅黑";
+		}
+ 
